@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Visit Suez – Where History Meets the Sea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --blue-900: #022b4c;
+      --blue-700: #065a9e;
+      --blue-500: #1c8fe5;
+      --blue-300: #7bc3ff;
+      --blue-100: #e6f4ff;
+      --white: #ffffff;
+      --gray-100: #f5f7fa;
+      --gray-400: #9aa4b2;
+      --radius-card: 20px;
+      --shadow-soft: 0 18px 40px rgba(3, 40, 80, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--white);
+      color: #0f172a;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      border-radius: 16px;
+    }
+
+    /* Layout helpers */
+    .container {
+      width: min(1120px, 100% - 3rem);
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .section-kicker {
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--blue-900);
+    }
+
+    .section-subtitle {
+      max-width: 480px;
+      font-size: 0.98rem;
+      color: var(--gray-400);
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 18px 0;
+      transition: all 0.3s ease;
+      background: linear-gradient(to bottom, rgba(2, 43, 76, 0.85), transparent);
+      backdrop-filter: blur(16px);
+    }
+
+    .navbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, var(--blue-300), var(--blue-900));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--white);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 0.9rem;
+      color: var(--white);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--blue-300);
+      transition: width 0.2s ease;
+      border-radius: 999px;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      font-size: 0.78rem;
+    }
+
+    .lang-pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+    }
+
+    .lang-pill.active {
+      background: var(--white);
+      color: var(--blue-900);
+      font-weight: 600;
+    }
+
+    .navbar.nav-scrolled {
+      background: rgba(2, 43, 76, 0.98);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 96px; /* space for nav */
+      color: var(--white);
+      overflow: hidden;
+      background: radial-gradient(circle at top left, #2b9fff, #001428);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to bottom, rgba(1, 14, 40, 0.4), rgba(1, 14, 40, 0.85)),
+        url("assets/hero-suez.jpg");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.95;
+      z-index: -2;
+    }
+
+    .hero-overlay-wave {
+      position: absolute;
+      inset: auto 0 0;
+      height: 260px;
+      background: radial-gradient(circle at 20% -20%, rgba(123, 195, 255, 0.6), transparent 70%);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--blue-300);
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, var(--blue-300), var(--blue-100));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      max-width: 520px;
+      font-size: 1rem;
+      color: #e5edf6;
+      margin-bottom: 24px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-300));
+      color: var(--white);
+      box-shadow: 0 14px 35px rgba(0, 90, 175, 0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(0, 90, 175, 0.55);
+    }
+
+    .btn-outline {
+      background: rgba(15, 23, 42, 0.5);
+      color: var(--white);
+      border-color: rgba(148, 163, 184, 0.7);
+    }
+
+    .btn-outline:hover {
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .hero-quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.82rem;
+    }
+
+    .hero-chip {
+      padding: 6px 12px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .hero-chip:hover {
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .hero-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--blue-300);
+    }
+
+    .hero-card {
+      background: rgba(15, 23, 42, 0.84);
+      border-radius: 24px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(24px);
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .hero-badge {
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.15);
+      color: var(--blue-100);
+    }
+
+    .hero-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--blue-100);
+    }
+
+    .hero-card-sub {
+      font-size: 0.76rem;
+      color: #cbd5f5;
+      margin-bottom: 10px;
+    }
+
+    .hero-stat-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .hero-stat {
+      flex: 1;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .hero-stat-label {
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+
+    .hero-stat-value {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--blue-100);
+    }
+
+    /* Section: Attractions */
+    .section-alt {
+      background: linear-gradient(to bottom, var(--blue-100), var(--white));
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .filter-chip {
+      padding: 8px 14px;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-chip.active,
+    .filter-chip:hover {
+      background: var(--blue-500);
+      color: var(--white);
+      border-color: var(--blue-500);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18);
+    }
+
+    .card-image {
+      position: relative;
+      overflow: hidden;
+      max-height: 220px;
+    }
+
+    .card-tag {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--white);
+    }
+
+    .card-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--blue-900);
+    }
+
+    .card-text {
+      font-size: 0.88rem;
+      color: var(--gray-400);
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .card-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue-500);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-link span {
+      font-size: 1rem;
+    }
+
+    /* Heritage & timeline */
+    .timeline {
+      position: relative;
+      margin-top: 24px;
+      padding-left: 20px;
+      border-left: 2px dashed rgba(148, 163, 184, 0.6);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 18px;
+      padding-left: 16px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -12px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--blue-500);
+      box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.18);
+    }
+
+    .timeline-year {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--blue-700);
+      margin-bottom: 2px;
+    }
+
+    .timeline-text {
+      font-size: 0.88rem;
+      color: #475569;
+    }
+
+    /* People of Suez */
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .person-card {
+      background: var(--white);
+      border-radius: 999px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .person-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue-300), var(--blue-900));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .person-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--blue-900);
+    }
+
+    .person-role {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+    }
+
+    .person-quote {
+      font-size: 0.78rem;
+      margin-top: 2px;
+      color: #64748b;
+    }
+
+    /* Clubs & lifestyle, experiences */
+    .pill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .pill-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 15px 16px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pill-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--blue-900);
+    }
+
+    .pill-meta {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .pill-actions {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .pill-badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--blue-100);
+      color: var(--blue-700);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    /* Events */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .event-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 16px 16px 14px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .event-date {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--blue-700);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .event-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--blue-900);
+    }
+
+    .event-meta {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .event-actions {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .event-calendar-link {
+      color: var(--blue-500);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* Plan your trip */
+    .trip-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 32px;
+    }
+
+    .info-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+
+    .info-list li::before {
+      content: "•";
+      margin-right: 6px;
+      color: var(--blue-500);
+    }
+
+    .itinerary-cards {
+      display: grid;
+      gap: 14px;
+    }
+
+    .itinerary-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow-soft);
+      font-size: 0.85rem;
+    }
+
+    .itinerary-title {
+      font-weight: 600;
+      color: var(--blue-900);
+      margin-bottom: 4px;
+    }
+
+    /* Map */
+    .map-wrapper {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-300));
+      color: var(--white);
+      padding: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr);
+      gap: 20px;
+    }
+
+    .map-placeholder {
+      border-radius: 18px;
+      background: radial-gradient(circle at 20% 0, rgba(226, 243, 255, 0.5), transparent 60%),
+        radial-gradient(circle at 100% 80%, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.9));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .map-legend {
+      font-size: 0.82rem;
+      display: grid;
+      gap: 8px;
+    }
+
+    .map-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.5);
+      font-size: 0.8rem;
+    }
+
+    .map-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue-300);
+    }
+
+    /* Stay & eat */
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .directory-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: 1.7fr 1.2fr;
+      gap: 16px;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .dir-name {
+      font-weight: 600;
+      color: var(--blue-900);
+      margin-bottom: 4px;
+    }
+
+    .dir-type {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-bottom: 4px;
+    }
+
+    .dir-rating {
+      font-size: 0.8rem;
+      color: #facc15;
+    }
+
+    .dir-meta {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    /* Blog */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .blog-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blog-body {
+      padding: 14px 16px 16px;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .blog-title {
+      font-weight: 600;
+      color: var(--blue-900);
+    }
+
+    .blog-meta {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--blue-900);
+      color: var(--white);
+      padding: 32px 0 20px;
+      font-size: 0.82rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .footer-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 4px;
+    }
+
+    .footer-links a {
+      color: #e2e8f0;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      padding-top: 12px;
+    }
+
+    /* Scroll reveal (simple) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        margin-top: 24px;
+      }
+
+      .cards-grid,
+      .blog-grid,
+      .events-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .people-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .pill-grid,
+      .directory-grid,
+      .trip-grid,
+      .map-wrapper {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .navbar-inner {
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 0.82rem;
+      }
+
+      .hero {
+        text-align: left;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cards-grid,
+      .blog-grid,
+      .events-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .people-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <div class="logo">
+        <div class="logo-mark">SZ</div>
+        <div>
+          <div style="font-size:0.88rem;">Visit Suez</div>
+          <div style="font-size:0.72rem;opacity:0.8;">Where history meets the sea</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#attractions">Attractions</a>
+        <a href="#heritage">Heritage</a>
+        <a href="#people">People of Suez</a>
+        <a href="#clubs">Clubs & Lifestyle</a>
+        <a href="#experiences">Experiences</a>
+        <a href="#events">Events</a>
+        <a href="#plan">Plan Your Trip</a>
+        <a href="#map">Map</a>
+        <a href="#stay-eat">Stay & Eat</a>
+        <a href="#blog">Stories</a>
+        <div class="lang-switch">
+          <span class="lang-pill active">EN</span>
+          <span class="lang-pill">AR</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay-wave"></div>
+    <div class="container hero-grid">
+      <div class="reveal">
+        <div class="hero-kicker">Egypt • Red Sea • Suez Canal</div>
+        <h1 class="hero-title">
+          Suez,<br />
+          <span>where history meets the sea.</span>
+        </h1>
+        <p class="hero-subtitle">
+          Walk along promenades kissed by the Red Sea breeze, trace stories of the Suez Canal,
+          and discover beaches, heritage, festivals, and warm local life – all in one coastal city.
+        </p>
+        <div class="hero-ctas">
+          <a href="#attractions" class="btn btn-primary">Discover Attractions</a>
+          <a href="#plan" class="btn btn-outline">Plan Your Trip</a>
+        </div>
+        <div class="hero-quick-links">
+          <button class="hero-chip" onclick="document.getElementById('attractions').scrollIntoView({behavior:'smooth'});">
+            <span class="hero-chip-dot"></span> Beaches
+          </button>
+          <button class="hero-chip" onclick="document.getElementById('heritage').scrollIntoView({behavior:'smooth'});">
+            <span class="hero-chip-dot"></span> Heritage & Museums
+          </button>
+          <button class="hero-chip" onclick="document.getElementById('events').scrollIntoView({behavior:'smooth'});">
+            <span class="hero-chip-dot"></span> Events & Festivals
+          </button>
+          <button class="hero-chip" onclick="document.getElementById('clubs').scrollIntoView({behavior:'smooth'});">
+            <span class="hero-chip-dot"></span> Clubs & Lifestyle
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-card reveal">
+        <div class="hero-card-header">
+          <div>
+            <div class="hero-card-title">Your gateway to the Red Sea</div>
+            <div class="hero-card-sub">Plan unforgettable days between sea, mountains, and canal history.</div>
+          </div>
+          <div class="hero-badge">Trip Snapshot</div>
+        </div>
+        <div class="hero-stat-row">
+          <div class="hero-stat">
+            <div class="hero-stat-label">Average sun days</div>
+            <div class="hero-stat-value">300+ / year</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">Best time to visit</div>
+            <div class="hero-stat-value">Oct – Apr</div>
+          </div>
+        </div>
+        <div class="hero-stat-row">
+          <div class="hero-stat">
+            <div class="hero-stat-label">Iconic experiences</div>
+            <div class="hero-stat-value">Beaches • Canal • Heritage</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">From Cairo</div>
+            <div class="hero-stat-value">~1.5 hrs drive</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATTRACTIONS -->
+  <section id="attractions" class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Attractions</div>
+          <h2 class="section-title">Discover the best of Suez</h2>
+        </div>
+        <p class="section-subtitle">
+          From family-friendly beaches and seaside promenades to historic sites and desert horizons,
+          explore the must-see places that give Suez its unique character.
+        </p>
+      </div>
+
+      <div class="filters reveal">
+        <button class="filter-chip active">All</button>
+        <button class="filter-chip">Beaches</button>
+        <button class="filter-chip">Mountains & Desert</button>
+        <button class="filter-chip">Museums</button>
+        <button class="filter-chip">Walking Promenades</button>
+        <button class="filter-chip">Family Fun</button>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card reveal">
+          <div class="card-image">
+            <img src="assets/attraction-beach.jpg" alt="Suez beach at sunset" />
+            <span class="card-tag">Beaches</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">El-Suwaisa Beach</h3>
+            <p class="card-text">
+              A relaxed local beach where Suez families gather for evening walks, sea breeze,
+              and views stretching across the Gulf of Suez.
+            </p>
+            <div class="card-footer">
+              <a href="#" class="card-link">View details <span>→</span></a>
+              <span style="font-size:0.78rem;color:var(--gray-400);">Family-friendly • Easy access</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-image">
+            <img src="assets/attraction-promenade.jpg" alt="Walking promenade in Suez" />
+            <span class="card-tag">Promenade</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Port Tawfiq Promenade</h3>
+            <p class="card-text">
+              A scenic waterfront walk where the canal meets the sea – perfect for sunset strolls,
+              photography, and watching ships in the distance.
+            </p>
+            <div class="card-footer">
+              <a href="#" class="card-link">View details <span>→</span></a>
+              <span style="font-size:0.78rem;color:var(--gray-400);">Great at golden hour</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-image">
+            <img src="assets/attraction-museum.jpg" alt="Suez National Museum" />
+            <span class="card-tag">Museum</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Suez National Museum</h3>
+            <p class="card-text">
+              A modern museum telling the story of Suez from ancient trade routes and pharaonic expeditions
+              to the Suez Canal and modern wars.
+            </p>
+            <div class="card-footer">
+              <a href="#" class="card-link">View details <span>→</span></a>
+              <span style="font-size:0.78rem;color:var(--gray-400);">Heritage • Culture</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HERITAGE & HISTORY -->
+  <section id="heritage">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Heritage & History</div>
+          <h2 class="section-title">Walk through living history</h2>
+        </div>
+        <p class="section-subtitle">
+          Suez has always been a gateway city – from ancient expeditions and trade caravans to the Suez Canal,
+          October War sites, and spiritual landmarks.
+        </p>
+      </div>
+
+      <div class="cards-grid" style="margin-bottom:32px;">
+        <article class="card reveal">
+          <div class="card-image">
+            <img src="assets/heritage-house.jpg" alt="Historic house in Suez" />
+            <span class="card-tag">Historic House</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Heritage Houses & Villas</h3>
+            <p class="card-text">
+              Explore old European-style villas and merchant houses overlooking the sea, reflecting
+              the cosmopolitan life around the Suez Canal in the 19th and 20th centuries.
+            </p>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-image">
+            <img src="assets/heritage-mosque.jpg" alt="Historic mosque in Suez" />
+            <span class="card-tag">Religious Site</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Historic Mosques & Churches</h3>
+            <p class="card-text">
+              Visit iconic spiritual landmarks that shaped the city’s identity and gave Suez
+              a deep sense of faith, resilience, and hospitality.
+            </p>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-image">
+            <img src="assets/heritage-war-site.jpg" alt="War memorial site near Suez" />
+            <span class="card-tag">War Site</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">October War Sites</h3>
+            <p class="card-text">
+              Open-air memorials and fortifications that witnessed decisive battles during the
+              October War, standing as powerful symbols of courage.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="reveal">
+        <h3 style="font-size:1rem;font-weight:600;color:var(--blue-900);margin-bottom:10px;">
+          Suez through the centuries
+        </h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">Ancient times</div>
+            <div class="timeline-text">
+              Pharaohs explored the Red Sea coast from this region, launching expeditions to Punt
+              and linking the Nile Valley to maritime trade routes.
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">19th century – Suez Canal era</div>
+            <div class="timeline-text">
+              The opening of the Suez Canal transformed the city into a global maritime hub,
+              bringing international companies, consulates, and multicultural communities.
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">20th century – Wars & resilience</div>
+            <div class="timeline-text">
+              Suez became a symbol of resistance during modern conflicts, with its people rebuilding
+              the city multiple times and keeping its port and spirit alive.
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">Today</div>
+            <div class="timeline-text">
+              A coastal city reconnecting with its heritage, investing in promenades, culture,
+              sports, and tourism while staying true to its canal identity.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PEOPLE OF SUEZ -->
+  <section id="people" class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">People of Suez</div>
+          <h2 class="section-title">Stories of courage, art & the sea</h2>
+        </div>
+        <p class="section-subtitle">
+          Meet some of the personalities whose stories are intertwined with Suez – from captains and
+          artists to historians, divers, and community leaders.
+        </p>
+      </div>
+
+      <div class="people-grid">
+        <article class="person-card reveal">
+          <div class="person-avatar">C</div>
+          <div>
+            <div class="person-name">Canal Captain</div>
+            <div class="person-role">Pilot • Suez Canal</div>
+            <p class="person-quote">“Every ship carries a story, and Suez has seen them all.”</p>
+          </div>
+        </article>
+
+        <article class="person-card reveal">
+          <div class="person-avatar">A</div>
+          <div>
+            <div class="person-name">Local Artist</div>
+            <div class="person-role">Murals & heritage sketches</div>
+            <p class="person-quote">“I paint the sea, the old houses, and the faces that built this city.”</p>
+          </div>
+        </article>
+
+        <article class="person-card reveal">
+          <div class="person-avatar">D</div>
+          <div>
+            <div class="person-name">Dive Guide</div>
+            <div class="person-role">Red Sea explorer</div>
+            <p class="person-quote">“Just beyond Suez, the Red Sea opens to reefs, dolphins, and shipwrecks.”</p>
+          </div>
+        </article>
+
+        <article class="person-card reveal">
+          <div class="person-avatar">H</div>
+          <div>
+            <div class="person-name">Heritage Researcher</div>
+            <div class="person-role">Local history & archives</div>
+            <p class="person-quote">“Every street here holds a memory of trade, travel, and resistance.”</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLUBS & LIFESTYLE -->
+  <section id="clubs">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Clubs & Lifestyle</div>
+          <h2 class="section-title">Sea clubs, sports & youth energy</h2>
+        </div>
+        <p class="section-subtitle">
+          Join the city’s active side: sports clubs, youth centers, and marine clubs where locals
+          train, socialize, and enjoy the waterfront.
+        </p>
+      </div>
+
+      <div class="pill-grid">
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Suez Sports Club</h3>
+          <p class="pill-meta">Football, courts, kids activities • Central Suez</p>
+          <div class="pill-actions">
+            <span class="pill-badge">Family friendly</span>
+            <a href="#" class="card-link">View on map <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Marine & Yacht Club</h3>
+          <p class="pill-meta">Dockside café, small boats, canal & sea views • Port Tawfiq</p>
+          <div class="pill-actions">
+            <span class="pill-badge">Sea view</span>
+            <a href="#" class="card-link">View on map <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Youth & Culture Center</h3>
+          <p class="pill-meta">Workshops, theater, music & sports for young people • City districts</p>
+          <div class="pill-actions">
+            <span class="pill-badge">Culture & arts</span>
+            <a href="#" class="card-link">View on map <span>→</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCES & ACTIVITIES -->
+  <section id="experiences" class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Experiences & Activities</div>
+          <h2 class="section-title">Choose your Suez experience</h2>
+        </div>
+        <p class="section-subtitle">
+          Whether you’re here for a day trip or a long weekend, pick experiences that match
+          your style – from calm sea walks to fishing trips and festivals.
+        </p>
+      </div>
+
+      <div class="pill-grid">
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Boat Trips & Canal Views</h3>
+          <p class="pill-meta">
+            Short cruises and viewing spots where you can watch international ships
+            as they pass through the Suez Canal.
+          </p>
+        </article>
+
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Fishing Experiences</h3>
+          <p class="pill-meta">
+            Join local fishermen or book a small trip along the Gulf of Suez to
+            experience a traditional way of life.
+          </p>
+        </article>
+
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Walking & Heritage Tours</h3>
+          <p class="pill-meta">
+            Guided walks through old neighborhoods, heritage villas, and waterfront streets
+            filled with stories of the sea.
+          </p>
+        </article>
+
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Cultural Nights & Festivals</h3>
+          <p class="pill-meta">
+            Seasonal festivals, open-air concerts, and cultural nights that celebrate
+            Suez’s music, food, and community.
+          </p>
+        </article>
+
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Family Activities</h3>
+          <p class="pill-meta">
+            Parks, promenades, and simple beach spots where children can play,
+            ride bikes, and enjoy the sea breeze.
+          </p>
+        </article>
+
+        <article class="pill-card reveal">
+          <h3 class="pill-title">Day Trips Around Suez</h3>
+          <p class="pill-meta">
+            Explore nearby desert landscapes, lookout points, and routes towards
+            South Sinai and the Red Sea coast.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS & FESTIVALS -->
+  <section id="events">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Events & Festivals</div>
+          <h2 class="section-title">What’s happening in Suez</h2>
+        </div>
+        <p class="section-subtitle">
+          Stay tuned to the city’s calendar – from sports events and fishing festivals
+          to cultural nights and youth activities.
+        </p>
+      </div>
+
+      <div class="events-grid">
+        <article class="event-card reveal">
+          <div class="event-date">13–17 Oct</div>
+          <h3 class="event-title">Suez Fishing Festival</h3>
+          <p class="event-meta">Suez waterfront • Boat shows, competitions, street food & music.</p>
+          <div class="event-actions">
+            <span style="color:#64748b;">Sea • Family • Local culture</span>
+            <button class="event-calendar-link">
+              <span>＋</span> Add to calendar
+            </button>
+          </div>
+        </article>
+
+        <article class="event-card reveal">
+          <div class="event-date">Weekends</div>
+          <h3 class="event-title">Sunset Promenade Nights</h3>
+          <p class="event-meta">Port Tawfiq • Street stalls, local snacks & live music corners.</p>
+          <div class="event-actions">
+            <span style="color:#64748b;">Evening walk</span>
+            <button class="event-calendar-link">
+              <span>＋</span> Add to calendar
+            </button>
+          </div>
+        </article>
+
+        <article class="event-card reveal">
+          <div class="event-date">Seasonal</div>
+          <h3 class="event-title">Heritage & Photo Walks</h3>
+          <p class="event-meta">Old Suez • Guided tours, storytelling, and photography sessions.</p>
+          <div class="event-actions">
+            <span style="color:#64748b;">Heritage</span>
+            <button class="event-calendar-link">
+              <span>＋</span> Add to calendar
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAN YOUR TRIP -->
+  <section id="plan" class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Plan Your Trip</div>
+          <h2 class="section-title">Practical info for a smooth visit</h2>
+        </div>
+        <p class="section-subtitle">
+          Easy to reach, easy to enjoy. Here’s a quick guide on how to get to Suez,
+          move around, and make the most of your time.
+        </p>
+      </div>
+
+      <div class="trip-grid">
+        <div class="reveal">
+          <h3 style="font-size:1rem;font-weight:600;color:var(--blue-900);">Getting to Suez</h3>
+          <ul class="info-list">
+            <li><strong>By car:</strong> Around 1.5 hours from Cairo via Suez Road.</li>
+            <li><strong>By bus:</strong> Regular buses connect Cairo, Suez, and neighboring cities.</li>
+            <li><strong>By tours:</strong> Many day-tour operators offer Cairo–Suez–Canal view trips.</li>
+          </ul>
+
+          <h3 style="font-size:1rem;font-weight:600;color:var(--blue-900);margin-top:18px;">Weather & best time</h3>
+          <ul class="info-list">
+            <li>Mild winters and warm summers with coastal breeze.</li>
+            <li>October to April are ideal for walking tours and festivals.</li>
+          </ul>
+
+          <h3 style="font-size:1rem;font-weight:600;color:var(--blue-900);margin-top:18px;">Moving around</h3>
+          <ul class="info-list">
+            <li>Taxis and ride-hailing apps are available.</li>
+            <li>Promenades are best enjoyed on foot or by bike.</li>
+          </ul>
+        </div>
+
+        <div class="itinerary-cards reveal">
+          <div class="itinerary-card">
+            <div class="itinerary-title">1-day snapshot</div>
+            <p>
+              Morning at the Suez National Museum, lunch by the sea, afternoon walk along Port Tawfiq Promenade,
+              and sunset by the water.
+            </p>
+          </div>
+          <div class="itinerary-card">
+            <div class="itinerary-title">2-day escape</div>
+            <p>
+              Day 1: Museum, heritage walk, and canal viewpoints. Day 2: Beach time, fishing experience
+              or short boat trip, and evening at a local club.
+            </p>
+          </div>
+          <div class="itinerary-card">
+            <div class="itinerary-title">Weekend by the sea</div>
+            <p>
+              Mix promenades, sea views, cultural nights, and nearby desert or coastal day trips – perfect
+              for families and friends.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE MAP -->
+  <section id="map">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Map</div>
+          <h2 class="section-title">See Suez at a glance</h2>
+        </div>
+        <p class="section-subtitle">
+          Explore an interactive map of the city with pins for attractions, heritage sites, clubs,
+          hotels, restaurants, and beaches.
+        </p>
+      </div>
+
+      <div class="map-wrapper reveal">
+        <div class="map-placeholder">
+          <div>
+            <h3 style="font-size:1rem;font-weight:600;margin-bottom:6px;">Interactive map placeholder</h3>
+            <p>
+              Here you can integrate a real interactive map (e.g. using Leaflet or Google Maps)
+              with pins for key spots across Suez.
+            </p>
+          </div>
+        </div>
+        <div class="map-legend">
+          <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:4px;">Map layers</h3>
+          <p style="margin-bottom:4px;">Toggle categories to plan your day:</p>
+          <div class="map-tag"><span class="map-dot"></span> Attractions & beaches</div>
+          <div class="map-tag"><span class="map-dot"></span> Heritage & museums</div>
+          <div class="map-tag"><span class="map-dot"></span> Clubs & youth centers</div>
+          <div class="map-tag"><span class="map-dot"></span> Hotels & guest houses</div>
+          <div class="map-tag"><span class="map-dot"></span> Cafés & restaurants</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE TO STAY & EAT -->
+  <section id="stay-eat" class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Stay & Eat</div>
+          <h2 class="section-title">Sleep by the sea, taste local flavors</h2>
+        </div>
+        <p class="section-subtitle">
+          Find simple guest houses, hotels with sea views, and local restaurants serving
+          fresh seafood and Egyptian favorites.
+        </p>
+      </div>
+
+      <div class="directory-grid">
+        <article class="directory-card reveal">
+          <div>
+            <div class="dir-name">Seaview Hotel Suez</div>
+            <div class="dir-type">Hotel • Sea view</div>
+            <div class="dir-rating">★★★★☆</div>
+          </div>
+          <div>
+            <p class="dir-meta">Port Tawfiq • Close to promenade & marine club.</p>
+            <a href="#" class="card-link">View on map <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="directory-card reveal">
+          <div>
+            <div class="dir-name">Harbor Guest House</div>
+            <div class="dir-type">Guest house • Cozy</div>
+            <div class="dir-rating">★★★☆☆</div>
+          </div>
+          <div>
+            <p class="dir-meta">Near waterfront • Simple stay, warm local welcome.</p>
+            <a href="#" class="card-link">View on map <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="directory-card reveal">
+          <div>
+            <div class="dir-name">Suez Seafood Corner</div>
+            <div class="dir-type">Restaurant • Seafood</div>
+            <div class="dir-rating">★★★★☆</div>
+          </div>
+          <div>
+            <p class="dir-meta">Fresh catch of the day, local recipes, and sea views.</p>
+            <a href="#" class="card-link">View on map <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="directory-card reveal">
+          <div>
+            <div class="dir-name">Old Town Café & Bakery</div>
+            <div class="dir-type">Café • Local flavors</div>
+            <div class="dir-rating">★★★☆☆</div>
+          </div>
+          <div>
+            <p class="dir-meta">Downtown • Coffee, desserts, and evening hangouts.</p>
+            <a href="#" class="card-link">View on map <span>→</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG / STORIES -->
+  <section id="blog">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-kicker">Stories from Suez</div>
+          <h2 class="section-title">Read, listen, and get inspired</h2>
+        </div>
+        <p class="section-subtitle">
+          Articles about local culture, food, festivals, and personal stories that bring Suez
+          closer to you before you even arrive.
+        </p>
+      </div>
+
+      <div class="blog-grid">
+        <article class="blog-card reveal">
+          <div class="card-image">
+            <img src="assets/blog-promenade.jpg" alt="Sunset promenade in Suez" />
+          </div>
+          <div class="blog-body">
+            <div class="blog-title">An evening on the Suez promenade</div>
+            <div class="blog-meta">Lifestyle • 5 min read</div>
+            <p>
+              Follow a local family as they walk along the sea, watch ships, and enjoy street snacks
+              on a breezy weekend evening.
+            </p>
+            <a href="#" class="card-link">Read story <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <div class="card-image">
+            <img src="assets/blog-seafood.jpg" alt="Seafood dish in Suez" />
+          </div>
+          <div class="blog-body">
+            <div class="blog-title">Seafood secrets of Suez</div>
+            <div class="blog-meta">Food • 4 min read</div>
+            <p>
+              Discover how local fishermen, home cooks, and restaurants turn the Gulf’s catch into
+              simple, memorable dishes.
+            </p>
+            <a href="#" class="card-link">Read story <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <div class="card-image">
+            <img src="assets/blog-heritage.jpg" alt="Heritage building in Suez" />
+          </div>
+          <div class="blog-body">
+            <div class="blog-title">Tracing the canal’s heritage streets</div>
+            <div class="blog-meta">Heritage • 6 min read</div>
+            <p>
+              Walk through old districts where consulates, companies, and sailors once crossed paths,
+              leaving behind unique architecture.
+            </p>
+            <a href="#" class="card-link">Read story <span>→</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">Visit Suez</div>
+          <p>
+            Official tourism guide for Suez, Egypt. A coastal city where the canal, the sea,
+            and mountain horizons meet everyday life.
+          </p>
+        </div>
+        <div>
+          <div class="footer-title">Plan your visit</div>
+          <div class="footer-links">
+            <a href="#plan">How to get here</a>
+            <a href="#stay-eat">Where to stay</a>
+            <a href="#attractions">Top attractions</a>
+            <a href="#events">Events & festivals</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">Connect</div>
+          <div class="footer-links">
+            <a href="#">Contact & visitor info</a>
+            <a href="#">Media & partners</a>
+            <a href="#">Frequently asked questions</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Visit Suez. All rights reserved.</span>
+        <span>Made for explorers of the sea & history.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav style on scroll
+    const nav = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+    });
+
+    // Simple scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    reveals.forEach(el => observer.observe(el));
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
